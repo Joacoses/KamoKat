@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "321555474818",
+    "project_id": "kamokat-1b330",
+    "storage_bucket": "kamokat-1b330.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321555474818:android:fd3c0b20c4a4661dd4879b",
+        "android_client_info": {
+          "package_name": "com.example.dabebel.registro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "321555474818-ejjes2pqks8nefaic0iik5im57mlli34.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dabebel.registro",
+            "certificate_hash": "c3fdd666bb0197aeecb740a3384394f127ab9241"
+          }
+        },
+        {
+          "client_id": "321555474818-o7c47kbnesku9h2r6cc413tl9uoshtv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCMvflwm4S6JFfM8yeRoYtal03Eke9zj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "321555474818-o7c47kbnesku9h2r6cc413tl9uoshtv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

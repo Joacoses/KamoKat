@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/ tools"
+    tools:context=".MainActivity">
+    <item android:id="@+id/action_settings"
+        android:title="Configuración"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:orderInCategory="5"
+        app:showAsAction="never"/>
+    <item android:id="@+id/cerrarSesion"
+        android:title="Cerrar sesión"
+        android:icon="@drawable/sesion"
+        android:orderInCategory="10"
+        app:showAsAction="withText"/>
+    <item android:title="Acerca de..."
+        android:id="@+id/acercaDe"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:orderInCategory="8"
+        app:showAsAction="ifRoom|withText"/>
+    <item android:title="Perfil"
+        android:id="@+id/perfil"
+        android:icon="@drawable/iconousuario"
+        android:orderInCategory="9"
+        app:showAsAction="ifRoom|withText"/>
+</menu>
