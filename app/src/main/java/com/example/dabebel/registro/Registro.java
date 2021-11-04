@@ -146,7 +146,7 @@ public class Registro extends AppCompatActivity {
     public String recogerContra()
     {
         String contra = "";
-        contra = binding.txtContraseña.getText().toString();
+        contra = binding.txtContrasenya.getText().toString();
 
         return contra;
     }

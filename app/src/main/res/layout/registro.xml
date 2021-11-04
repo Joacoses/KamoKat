@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/txtContraseña"
+        android:id="@+id/txtContrasenya"
         android:layout_width="315dp"
         android:layout_height="44dp"
         android:ems="10"

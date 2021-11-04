@@ -20,13 +20,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Registro">
+
         </activity>
+
         <activity android:name=".AcercaDeActivity">
+
         </activity>
+
         <activity android:name=".MainActivity">
+
         </activity>
+
         <activity android:name=".Perfil">
+
+        </activity>
+
+        <activity android:name=".EditarPerfil">
+
         </activity>
     </application>
 
