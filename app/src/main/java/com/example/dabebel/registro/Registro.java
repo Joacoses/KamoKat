@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dabebel.registro.databinding.ActivityMainBinding;
+import com.example.dabebel.registro.databinding.RegistroBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,16 +30,16 @@ public class Registro extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Map<String, String> datosASubir = new HashMap<>();
-
+    private RegistroBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.registro);
+        binding = RegistroBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot() );
         mAuth = FirebaseAuth.getInstance();
 
 
-        Button botonContinuar = findViewById(R.id.btContinuar);
-        botonContinuar.setOnClickListener(
+        binding.btContinuar.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -120,8 +122,7 @@ public class Registro extends AppCompatActivity {
     public String recogerNombre()
     {
         String nombre = "";
-        TextView txt = findViewById(R.id.txtNombre);
-        nombre = txt.getText().toString();
+        nombre = binding.txtNombre.getText().toString();
 
         return nombre;
     }
@@ -129,8 +130,7 @@ public class Registro extends AppCompatActivity {
     public String recogerApellido()
     {
         String apellido = "";
-        TextView txt = findViewById(R.id.txtApellidos);
-        apellido = txt.getText().toString();
+        apellido = binding.txtApellidos.getText().toString();
 
         return apellido;
     }
@@ -138,8 +138,7 @@ public class Registro extends AppCompatActivity {
     public String recogerMail()
     {
         String mail = "";
-        TextView txt = findViewById(R.id.txtMail);
-        mail = txt.getText().toString();
+        mail = binding.txtMail.getText().toString();
 
         return mail;
     }
@@ -147,8 +146,7 @@ public class Registro extends AppCompatActivity {
     public String recogerContra()
     {
         String contra = "";
-        TextView txt = findViewById(R.id.txtContraseña);
-        contra = txt.getText().toString();
+        contra = binding.txtContraseña.getText().toString();
 
         return contra;
     }

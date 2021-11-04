@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.dabebel.registro.databinding.ActivityMainBinding;
+import com.example.dabebel.registro.databinding.PerfilBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -25,20 +27,15 @@ public class Perfil extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseUser currentUser;
     private Map<String, String> datosUsuario = new HashMap<>();
-    private ImageView fotoUsuario;
-    private TextView nombre;
-    private TextView mail;
-    private TextView fecha;
+    private PerfilBinding binding;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.perfil);
+        binding = PerfilBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot() );
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        nombre = findViewById(R.id.txtNombreUsuario);
-        mail = findViewById(R.id.txtMailUsuario);
-        fecha = findViewById(R.id.txtFechaUsuario);
-        fotoUsuario = findViewById(R.id.fotoUsuario);
+
 
         cogerDatosUsuario(currentUser);
 
@@ -46,16 +43,16 @@ public class Perfil extends AppCompatActivity {
 
     private void cargarDatosUsuario(Map<String, String> datosUsuario)
     {
-        nombre.setText(datosUsuario.get("Nombre"));
-        mail.setText(datosUsuario.get("Mail"));
+        binding.txtNombreUsuario.setText(datosUsuario.get("Nombre"));
+        binding.txtMailUsuario.setText(datosUsuario.get("Mail"));
 
         Date d=new Date(Long.parseLong(datosUsuario.get("Fecha")));
-        fecha.setText(d.toString());
+        binding.txtFechaUsuario.setText(d.toString());
 
 
         try
         {
-            Glide.with(this).load(datosUsuario.get("Foto")).into(fotoUsuario);
+            Glide.with(this).load(datosUsuario.get("Foto")).into(binding.fotoUsuario);
         }
         catch (NullPointerException e)
         {

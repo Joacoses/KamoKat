@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.dabebel.registro.databinding.ActivityMainBinding;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser currentUser;
     private Map<String, String> datosUsuario = new HashMap<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ActivityMainBinding binding;
 
     //----------------------------------------------------------------------------------------------
     //Tabs
@@ -57,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot() );
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         cogerDatosUsuario(currentUser);
