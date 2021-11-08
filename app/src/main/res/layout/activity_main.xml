@@ -1,15 +1,106 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorTabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintBottom_toTopOf="@+id/viewpager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabs" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnfcentral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="525dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_mylocation"
+        app:backgroundTint="@color/colorTabs"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnfmapa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:clickable="false"
+        android:onClick="abrirMapa"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btnfcentral"
+        app:layout_constraintEnd_toStartOf="@+id/btnfcentral"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnfcentral"
+        app:srcCompat="@android:drawable/ic_menu_mapmode"
+        app:backgroundTint="@color/colorTabs"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnftabs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="450dp"
+        android:layout_marginEnd="43dp"
+        android:clickable="false"
+        android:onClick="abrirTabs"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btnfcentral"
+        app:layout_constraintEnd_toEndOf="@+id/btnfcentral"
+        app:layout_constraintStart_toEndOf="@+id/btnfmapa"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@android:drawable/ic_menu_my_calendar"
+        app:backgroundTint="@android:color/darker_gray"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnfacercade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="450dp"
+        android:layout_marginEnd="13dp"
+        android:clickable="false"
+        android:onClick="abrirAcercaDe"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btnfcentral"
+        app:layout_constraintEnd_toStartOf="@+id/btnfinvitar"
+        app:layout_constraintStart_toEndOf="@+id/btnfcentral"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_dialog_info"
+        app:backgroundTint="@color/colorTabs"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnfinvitar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:clickable="false"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btnfcentral"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnfcentral"
+        app:layout_constraintTop_toTopOf="@+id/btnfcentral"
+        app:srcCompat="@android:drawable/btn_star"
+        app:backgroundTint="@color/colorTabs"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

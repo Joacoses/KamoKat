@@ -28,6 +28,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,6 +76,51 @@ public class MainActivity extends AppCompatActivity {
         comprobarUsuario(datosUsuario);
 
 
+        //Floating Button---------------------------------------------------------------------------
+        FloatingActionButton boton = findViewById(R.id.btnfcentral);
+        FloatingActionButton botonMapa = findViewById(R.id.btnfmapa);
+        FloatingActionButton botonTabs = findViewById(R.id.btnftabs);
+        FloatingActionButton botonAcercade = findViewById(R.id.btnfacercade);
+        FloatingActionButton botonInvitar = findViewById(R.id.btnfinvitar);
+
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+                if(botonMapa.getVisibility() == View.VISIBLE){
+                    botonMapa.setVisibility(View.GONE);
+                    botonMapa.setClickable(false);
+
+                    botonTabs.setVisibility(View.GONE);
+                    botonTabs.setClickable(false);
+
+                    botonAcercade.setVisibility(View.GONE);
+                    botonAcercade.setClickable(false);
+
+                    botonInvitar.setVisibility(View.GONE);
+                    botonInvitar.setClickable(false);
+                }
+                else {
+                    botonMapa.setVisibility(View.VISIBLE);
+                    botonMapa.setClickable(true);
+
+                    botonTabs.setVisibility(View.VISIBLE);
+                    botonTabs.setClickable(false);
+
+                    botonAcercade.setVisibility(View.VISIBLE);
+                    botonAcercade.setClickable(true);
+
+                    botonInvitar.setVisibility(View.VISIBLE);
+                    botonInvitar.setClickable(true);
+                }
+
+            }
+        });
+        //-----------------------------------------------------------------------------------------
+
+
         //------------------------------------------------------------------------------------------
         //Tabs
         //Pestañas
@@ -98,7 +145,9 @@ public class MainActivity extends AppCompatActivity {
         //salida = findViewById(R.id.salida);
         //------------------------------------------------------------------------------------------
 
-    }
+
+
+    }//onCreate
 
     //----------------------------------------------------------------------------------------------
     //Menu
@@ -258,5 +307,22 @@ public class MainActivity extends AppCompatActivity {
 
         db.collection("Usuarios").add(datosASubir);
     }
+
+    //Floating Button-------------------------------------------------------------
+    public void abrirMapa(View view) {
+        startActivity(new Intent(this,Mapa.class));
+    }
+
+    public void abrirTabs(View view) {
+        startActivity(new Intent(this,MainActivity.class));
+    }
+
+    public void abrirAcercaDe(View view) {
+        startActivity(new Intent(this,AcercaDeActivity.class));
+    }
+    /*
+    public void abrirInvitar(View view) {
+        startActivity(new Intent(this,Invitar.class));
+    }*/
 
 }

@@ -52,6 +52,9 @@
 
         </activity>
 
+        <activity android:name=".Mapa2">
+
+        </activity>
         <activity android:name=".EditarPerfil">
 
         </activity>

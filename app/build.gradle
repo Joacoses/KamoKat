@@ -68,5 +68,7 @@ dependencies {
     //mapa
     implementation 'com.google.android.gms:play-services-maps:18.0.0'
 
+    //floating button
+    implementation 'androidx.navigation:navigation-ui:2.3.5'
 
 }
