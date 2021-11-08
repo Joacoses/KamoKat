@@ -20,6 +20,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.dabebel.registro.databinding.ActivityMainBinding;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private int[] imageResId = {
             R.drawable.tabmapa,
             R.drawable.tabcampana,
+            R.drawable.tabinfo,
             R.drawable.tabinfo
     };
     //----------------------------------------------------------------------------------------------
@@ -139,19 +146,20 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         public int getItemCount() {
-            return 3;
+            return 4;
         }
         @Override @NonNull
         public Fragment createFragment(int position) {
             switch (position) {
-                case 0: return new Pestana1Fragment();
-                case 1: return new Pestana2Fragment();
-                case 2: return new Pestana3Fragment();
-
+                case 0: return new Mapa2();
+                case 1: return new Pestana1Fragment();
+                case 2: return new Pestana2Fragment();
+                case 3: return new Pestana3Fragment();
             }
             return null;
         }
     }
+
 
     //----------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------
