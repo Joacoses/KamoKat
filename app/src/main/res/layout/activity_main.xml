@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_mylocation"
+        app:srcCompat="@drawable/expandirfab"
         app:backgroundTint="@color/colorTabs"
         />
 
@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnfcentral"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnfcentral"
-        app:srcCompat="@android:drawable/ic_menu_mapmode"
+        app:srcCompat="@drawable/tabmapa"
         app:backgroundTint="@color/colorTabs"
         />
 
@@ -67,7 +67,7 @@
         app:layout_constraintEnd_toEndOf="@+id/btnfcentral"
         app:layout_constraintStart_toEndOf="@+id/btnfmapa"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@android:drawable/ic_menu_my_calendar"
+        app:srcCompat="@drawable/iconotabs"
         app:backgroundTint="@android:color/darker_gray"
         />
 
@@ -99,7 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnfcentral"
         app:layout_constraintTop_toTopOf="@+id/btnfcentral"
-        app:srcCompat="@android:drawable/btn_star"
+        app:srcCompat="@drawable/compartir"
         app:backgroundTint="@color/colorTabs"
         />
 

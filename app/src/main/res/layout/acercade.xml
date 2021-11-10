@@ -4,7 +4,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/idInfo"
 android:layout_width="wrap_content"
-android:layout_height="wrap_content">
+android:layout_height="wrap_content"
+    android:background="@drawable/fondoapp">
 
 <LinearLayout
     android:layout_width="wrap_content"
@@ -134,7 +135,7 @@ android:layout_height="wrap_content">
                         android:layout_height="36dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
-                        android:text="Miembro de Korali. Los roles que ha desarrollado son:"
+                        android:text="Miembro de KamoKat. Los roles que ha desarrollado son:"
                         android:textAlignment="viewStart"
                         android:textColor="#37585D"
                         app:layout_constraintBottom_toBottomOf="@+id/margin"
@@ -239,7 +240,7 @@ android:layout_height="wrap_content">
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
 
-                        android:text="Miembro de Korali. Los roles que ha desarrollado son:"
+                        android:text="Miembro de KamoKat. Los roles que ha desarrollado son:"
                         android:textAlignment="viewStart"
                         android:textColor="#37585D"
                         app:layout_constraintEnd_toStartOf="@+id/margin2"
@@ -335,7 +336,7 @@ android:layout_height="wrap_content">
 
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
-                        android:text="Miembro de Korali. Los roles que ha desarrollado son:"
+                        android:text="Miembro de KamoKat. Los roles que ha desarrollado son:"
                         android:textAlignment="textStart"
                         android:textColor="#37585D"
                         app:layout_constraintBottom_toBottomOf="@+id/margin3"
@@ -434,7 +435,7 @@ android:layout_height="wrap_content">
 
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="5dp"
-                        android:text="Miembro de Korali. Los roles que ha desarrollado son:"
+                        android:text="Miembro de KamoKat. Los roles que ha desarrollado son:"
                         android:textAlignment="viewStart"
                         android:textColor="#37585D"
                         app:layout_constraintEnd_toStartOf="@+id/margin4"
@@ -531,7 +532,7 @@ android:layout_height="wrap_content">
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="5dp"
-                        android:text="Miembro de Korali. Los roles que ha desarrollado son:"
+                        android:text="Miembro de KamoKat. Los roles que ha desarrollado son:"
                         android:textAlignment="viewStart"
                         android:textColor="#37585D"
                         app:layout_constraintEnd_toEndOf="parent"

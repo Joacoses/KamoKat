@@ -57,10 +57,9 @@ public class MainActivity extends AppCompatActivity {
     // Nombres de las pestañas
     private String[] nombres = new String[]{"1","2","3"};
     private int[] imageResId = {
-            R.drawable.tabmapa,
-            R.drawable.tabcampana,
+            R.drawable.iconousuario,
             R.drawable.tabinfo,
-            R.drawable.tabinfo
+            R.drawable.tarjetabanco,
     };
     //----------------------------------------------------------------------------------------------
     private Button btnCerrarSesion;
@@ -170,11 +169,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if (id == R.id.cerrarSesion) {
-            cerrarPerfil(null);
+        /*if (id == R.id.action_settings) {
             return true;
         }
         if (id == R.id.perfil) {
@@ -185,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             lanzarAcercaDe(null);
             return true;
         }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 
@@ -195,15 +190,14 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         public int getItemCount() {
-            return 4;
+            return 3;
         }
         @Override @NonNull
         public Fragment createFragment(int position) {
             switch (position) {
-                case 0: return new Mapa2();
-                case 1: return new Pestana1Fragment();
-                case 2: return new Pestana2Fragment();
-                case 3: return new Pestana3Fragment();
+                case 0: return new Pestana1Fragment();
+                case 1: return new Pestana2Fragment();
+                case 2: return new Pestana3Fragment();
             }
             return null;
         }
@@ -222,33 +216,8 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, Perfil.class);
         startActivity(i);
     }
-    public void cerrarPerfil(View view){
-        AuthUI.getInstance().signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override public void onComplete(@NonNull Task<Void> task) {
-                        Intent i = new Intent(MainActivity.this,Login.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(i);
-                        MainActivity.this.finish();
-                    }
-                });
-    }
+
     //----------------------------------------------------------------------------------------------
-
-
-
-    public void cerrarSesion(View view) {
-        AuthUI.getInstance().signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override public void onComplete(@NonNull Task<Void> task) {
-                        Intent i = new Intent(MainActivity.this,Login.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(i);
-                        MainActivity.this.finish();
-                    }
-                });
-    }
-
 
     @Override
     public void onStart() {
