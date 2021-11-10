@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -37,11 +39,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Mapa extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class Mapa extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private GoogleMap mapa;
-    private final LatLng UPV = new LatLng(38.996952, -0.1636356);
+    private final LatLng posInicial = new LatLng(38.996952, -0.1636356);
 
 
     @Override
@@ -103,29 +105,12 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
-        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(UPV, 10));
+        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(posInicial, 12));
+        mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mapa.getUiSettings().setZoomControlsEnabled(false);
         descargarCoord();
 
 
-    }
-
-
-    public boolean onMarkerClick(final Marker marker) {
-        LatLng puntoMarcador = marker.getPosition();
-        Toast.makeText(Mapa.this,marker.toString(),
-                Toast.LENGTH_SHORT).show();
-        db.collection("Estaciones").whereEqualTo("Coordenadas", puntoMarcador).get() .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Toast.makeText(Mapa.this, document.toString(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-        return true;
     }
 
 
@@ -158,26 +143,40 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
 
     public void cargarPuntos(QueryDocumentSnapshot document)
     {
-        Toast.makeText(Mapa.this, document.get("Coordenadas").toString(),
-                Toast.LENGTH_SHORT).show();
-        Log.d("Coord",document.get("Coordenadas").toString() );
+        Log.d("Coord",document.toString() );
         GeoPoint coords = (GeoPoint) document.get("Coordenadas");
         LatLng coordenadas = new LatLng(coords.getLatitude(), coords.getLongitude()); //Nos ubicamos en la UPV
-        mapa.addMarker(new MarkerOptions().position(coordenadas).title("Marker"));
-        mapa.setOnMarkerClickListener(this);
-        //mapa.moveCamera(CameraUpdateFactory.newLatLng(UPV));
+        mapa.addMarker(new MarkerOptions()
+                .position(coordenadas)
+                .title(document.get("Nombe").toString())
+                .snippet("Cantidad de patinetes: " + document.get("Patinetes disponibles").toString() + " / " + document.get("Total patinetes").toString()));
+        mapa.setOnMapClickListener(this);
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            mapa.setMyLocationEnabled(true);
+            mapa.getUiSettings().setCompassEnabled(true);
+
+        }
     }
     public void moveCamera(View view) {
-        mapa.moveCamera(CameraUpdateFactory.newLatLng(UPV));
+        mapa.moveCamera(CameraUpdateFactory.newLatLng(posInicial));
     }
 
-    /*public void crearPuntos()
+    @Override
+    public void onMapClick(@NonNull LatLng latLng) {
+
+    }
+
+
+/*
+    public void crearPuntos()
     {
-            GeoPoint coords = new GeoPoint(39.0033117,-0.1616843);
+            GeoPoint coords = new GeoPoint(38.9959748,-0.1657578);
 
             Map<String, Object> punto = new HashMap<>();
             punto.put("Coordenadas", coords );
-            punto.put("Nombe", "Estacion 2");
+            punto.put("Nombe", "Estacion 1");
             punto.put("Patinetes disponibles", 4);
             punto.put("Total patinetes", 5);
             db.collection("Estaciones").document().set(punto);
