@@ -60,6 +60,8 @@ public class Perfil extends AppCompatActivity {
 
     }
 
+
+
     private void editarPerfil()
     {
         Intent i = new Intent( this, EditarPerfil.class);
