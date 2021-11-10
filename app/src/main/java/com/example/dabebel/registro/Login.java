@@ -38,6 +38,7 @@ public class Login extends AppCompatActivity {
 
     private void login() {
         FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+
         if (usuario != null) {
             Toast.makeText(this, "inicia sesión: "+usuario.getDisplayName()+ " - "+ usuario.getEmail(),Toast.LENGTH_LONG).show();
             //Intent i = new Intent(this, MainActivity.class);
