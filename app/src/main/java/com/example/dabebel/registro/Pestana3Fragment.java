@@ -44,7 +44,7 @@ public class Pestana3Fragment extends Fragment {
 
         botonTarjeta = (Button) view.findViewById(R.id.btn_3);
 
-        botonNoti = (Button) view.findViewById(R.id.btnNoti);
+        //botonNoti = (Button) view.findViewById(R.id.btnNoti);
 
 
         noti();
@@ -59,7 +59,7 @@ public class Pestana3Fragment extends Fragment {
         });
 
 
-
+/*
         botonNoti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +70,7 @@ public class Pestana3Fragment extends Fragment {
             }
         });
 
-
+*/
 
 
         // Inflate the layout for this fragment

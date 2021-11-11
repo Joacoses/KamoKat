@@ -73,7 +73,6 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
     final String manageStorage = Manifest.permission.READ_EXTERNAL_STORAGE;
     public static final int MANAGE = 7;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +81,8 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.mapa);
         mapFragment.getMapAsync(this);
+
+
 
         //Floating Button---------------------------------------------------------------------------
         FloatingActionButton boton = findViewById(R.id.btnfcentral);
@@ -151,12 +152,14 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
 
         //------------------------------------------------------------------------------------------
 
+
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
-        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(posInicial, 14));
+        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(posInicial, 15));
         mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mapa.getUiSettings().setZoomControlsEnabled(false);
         descargarCoord();
@@ -259,8 +262,8 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
         }
         catch (NullPointerException e)
         {
-            Toast.makeText(Mapa.this, "Fallo al descargar la información",
-                    Toast.LENGTH_SHORT).show();
+            /*Toast.makeText(Mapa.this, "Fallo al descargar la información",
+                    Toast.LENGTH_SHORT).show();*/
         }
     }
 

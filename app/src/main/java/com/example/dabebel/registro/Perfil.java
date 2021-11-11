@@ -75,7 +75,7 @@ public class Perfil extends AppCompatActivity {
         Date d=new Date(Long.parseLong(datosUsuario.get("Fecha")));
         binding.txtFechaUsuario.setText(d.toString());
 
-
+        Glide.with(this).load(datosUsuario.get("Foto")).into(binding.fotoUsuario);
         try
         {
             Glide.with(this).load(datosUsuario.get("Foto")).placeholder(R.drawable.iconopatineteredondo).into(binding.fotoUsuario);
@@ -83,8 +83,8 @@ public class Perfil extends AppCompatActivity {
         catch (NullPointerException e)
         {
             binding.fotoUsuario.setImageResource(R.drawable.iconopatineteredondo);
-            Toast.makeText(Perfil.this, "Fallo al descargar la información",
-                    Toast.LENGTH_SHORT).show();
+            /*Toast.makeText(Perfil.this, "Fallo al descargar la información",
+                    Toast.LENGTH_SHORT).show();*/
         }
     }
 
@@ -101,8 +101,8 @@ public class Perfil extends AppCompatActivity {
         }
         catch (NullPointerException e)
         {
-            Toast.makeText(Perfil.this, "Fallo al descargar la información",
-                    Toast.LENGTH_SHORT).show();
+            /*Toast.makeText(Perfil.this, "Fallo al descargar la información",
+                    Toast.LENGTH_SHORT).show();*/
         }
 
         cargarDatosUsuario(datosUsuario);
