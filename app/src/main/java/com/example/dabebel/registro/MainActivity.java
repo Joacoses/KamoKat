@@ -66,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot() );
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        cogerDatosUsuario(currentUser);
-        comprobarUsuario(datosUsuario);
+
 
 
         //Floating Button---------------------------------------------------------------------------
@@ -220,57 +219,7 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
 
     }
-    private void comprobarUsuario(Map<String, String> datosASubir)
-    {
 
-
-
-        try {
-            db.collection("Usuarios").whereEqualTo("Mail", datosASubir.get("Mail")).get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                Log.d("Query", task.getResult().getDocuments().toString());
-                                Log.d("Datos Usuario", datosUsuario.toString());
-
-                                if (task.getResult().isEmpty())
-                                {
-                                    subirDatosUsuario(datosUsuario);
-                                }
-                            }
-                        }
-                    });
-        }
-        catch (NullPointerException e)
-        {
-
-        }
-
-    }
-
-    public void cogerDatosUsuario(FirebaseUser currentUser)
-    {
-
-        try
-        {
-            datosUsuario.put("Nombre", currentUser.getDisplayName());
-            datosUsuario.put("Mail", currentUser.getEmail());
-            datosUsuario.put("Foto", currentUser.getPhotoUrl().toString());
-        }
-        catch (NullPointerException e)
-        {
-            Toast.makeText(MainActivity.this, "Fallo al descargar la información",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void subirDatosUsuario(Map<String, String> datosASubir )
-    {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("Usuarios").add(datosASubir);
-    }
 
     //Floating Button-------------------------------------------------------------
     public void abrirMapa(View view) {

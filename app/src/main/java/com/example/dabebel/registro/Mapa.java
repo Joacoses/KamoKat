@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -44,7 +46,8 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private GoogleMap mapa;
     private final LatLng posInicial = new LatLng(38.996952, -0.1636356);
-
+    FirebaseUser currentUser;
+    private Map<String, String> datosUsuario = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +64,8 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
         FloatingActionButton botonTabs = findViewById(R.id.btnftabs);
         FloatingActionButton botonAcercade = findViewById(R.id.btnfacercade);
         FloatingActionButton botonInvitar = findViewById(R.id.btnfinvitar);
-
+        cogerDatosUsuario(currentUser);
+        comprobarUsuario(datosUsuario);
         //crearPuntos();
 
         boton.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +109,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
-        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(posInicial, 12));
+        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(posInicial, 14));
         mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mapa.getUiSettings().setZoomControlsEnabled(false);
         descargarCoord();
@@ -168,7 +172,57 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
 
     }
 
+    private void comprobarUsuario(Map<String, String> datosASubir)
+    {
 
+
+
+        try {
+            db.collection("Usuarios").whereEqualTo("Mail", datosASubir.get("Mail")).get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("Query", task.getResult().getDocuments().toString());
+                                Log.d("Datos Usuario", datosUsuario.toString());
+
+                                if (task.getResult().isEmpty())
+                                {
+                                    subirDatosUsuario(datosUsuario);
+                                }
+                            }
+                        }
+                    });
+        }
+        catch (NullPointerException e)
+        {
+
+        }
+
+    }
+
+    public void cogerDatosUsuario(FirebaseUser currentUser)
+    {
+
+        try
+        {
+            datosUsuario.put("Nombre", currentUser.getDisplayName());
+            datosUsuario.put("Mail", currentUser.getEmail());
+            datosUsuario.put("Foto", currentUser.getPhotoUrl().toString());
+        }
+        catch (NullPointerException e)
+        {
+            Toast.makeText(Mapa.this, "Fallo al descargar la información",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void subirDatosUsuario(Map<String, String> datosASubir )
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Usuarios").add(datosASubir);
+    }
 /*
     public void crearPuntos()
     {
