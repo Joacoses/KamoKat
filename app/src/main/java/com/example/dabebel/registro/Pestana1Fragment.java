@@ -1,6 +1,11 @@
 package com.example.dabebel.registro;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -30,6 +36,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 
 public class Pestana1Fragment extends Fragment {
 
@@ -38,6 +46,7 @@ public class Pestana1Fragment extends Fragment {
     FirebaseUser currentUser;
     private Map<String, String> datosUsuario = new HashMap<>();
     //private PerfilBinding binding;
+
 
     Button btnEditarPerfil;
     Button btnCerrarSesion;
@@ -170,21 +179,6 @@ public class Pestana1Fragment extends Fragment {
                     }
                 });
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
