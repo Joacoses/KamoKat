@@ -35,6 +35,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -90,6 +91,8 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
         FloatingActionButton botonTabs = findViewById(R.id.btnftabs);
         FloatingActionButton botonAcercade = findViewById(R.id.btnfacercade);
         FloatingActionButton botonInvitar = findViewById(R.id.btnfinvitar);
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         cogerDatosUsuario(currentUser);
         comprobarUsuario(datosUsuario);
         //crearPuntos();
@@ -229,8 +232,6 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
     private void comprobarUsuario(Map<String, String> datosASubir)
     {
 
-
-
         try {
             db.collection("Usuarios").whereEqualTo("Mail", datosASubir.get("Mail")).get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -260,9 +261,12 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
 
         try
         {
+            Log.d("Datos usuario", currentUser.getDisplayName());
+
             datosUsuario.put("Nombre", currentUser.getDisplayName());
             datosUsuario.put("Mail", currentUser.getEmail());
             datosUsuario.put("Foto", currentUser.getPhotoUrl().toString());
+            Log.d("Datos usuario", datosUsuario.toString());
         }
         catch (NullPointerException e)
         {
@@ -275,7 +279,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
     {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("Usuarios").add(datosASubir);
+        db.collection("Usuarios").document(currentUser.getUid()).set(datosASubir);
     }
 /*
     public void crearPuntos()

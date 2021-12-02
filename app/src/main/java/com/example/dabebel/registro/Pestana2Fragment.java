@@ -34,6 +34,8 @@ public class Pestana2Fragment extends Fragment {
     private Adaptador adaptador;
     Uri urlFoto;
     Query query;
+    private FirebaseFirestore db;
+    String id;
 
 
     private FirebaseAuth mAuth;
@@ -43,7 +45,7 @@ public class Pestana2Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pestana2, container, false);
-
+        db=FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
@@ -51,9 +53,28 @@ public class Pestana2Fragment extends Fragment {
         RecyclerView recyclerExam = view.findViewById(R.id.recycler1);
 
         //recyclerViewCargar();
+/*
+        db.collection("Usuarios").whereEqualTo("Mail", currentUser.getEmail()).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        String docID = "";
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            docID = document.getId();
+                            Log.d("Doc id", docID);
+
+                        }
+                        Log.d("Doc id 2", docID);
+                        //db.collection("Usuarios").document(docID).update("Nombre", nuevoNombre);
+
+
+                    }
+                });*/
 
         Query query = FirebaseFirestore.getInstance()
-                .collection("Usuarios").document("eaLUYvJ2SBwe0YNkLGuN").collection("Viajes").orderBy("Fecha");
+                .collection("Usuarios").document(currentUser.getUid()).collection("Viajes");
+
         FirestoreRecyclerOptions<POJO> opciones = new FirestoreRecyclerOptions
                 .Builder<POJO>().setQuery(query, POJO.class).build();
         adaptador = new Adaptador(getContext(), opciones);
@@ -61,6 +82,8 @@ public class Pestana2Fragment extends Fragment {
         recyclerExam.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adaptador.onDataChanged();
+
+
 
 
 
