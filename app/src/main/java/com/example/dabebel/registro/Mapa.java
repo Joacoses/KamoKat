@@ -275,7 +275,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
     {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("Usuarios").add(datosASubir);
+        db.collection("Usuarios").document(currentUser.getUid()).set(datosASubir);
     }
 /*
     public void crearPuntos()
