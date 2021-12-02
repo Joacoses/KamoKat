@@ -84,13 +84,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
+        android:onClick="abrirInvitar"
         android:visibility="invisible"
+        app:backgroundTint="@color/colorTabs"
         app:layout_constraintBottom_toTopOf="@+id/btnfcentral"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnfcentral"
         app:layout_constraintTop_toTopOf="@+id/btnfcentral"
-        app:srcCompat="@drawable/compartir"
-        app:backgroundTint="@color/colorTabs"
-        />
+        app:srcCompat="@drawable/compartir" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

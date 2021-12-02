@@ -55,7 +55,7 @@
 
         </activity>
 
-        <activity android:name=".Mapa2">
+        <activity android:name=".Invitar">
 
         </activity>
         <activity android:name=".EditarPerfil">

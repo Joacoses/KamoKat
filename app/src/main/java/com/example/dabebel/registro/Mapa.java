@@ -181,6 +181,10 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
         startActivity(new Intent(this,AcercaDeActivity.class));
     }
 
+    public void abrirInvitar(View view) {
+        startActivity(new Intent(this,Invitar.class));
+    }
+
     public void descargarCoord()
     {
         db.collection("Estaciones").get() .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
