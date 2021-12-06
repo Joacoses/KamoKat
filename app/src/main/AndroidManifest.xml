@@ -57,9 +57,13 @@
 
         <activity android:name=".Invitar">
 
+
         </activity>
         <activity android:name=".EditarPerfil">
 
+        </activity>
+
+        <activity android:name=".Monedero">
         </activity>
     </application>
 

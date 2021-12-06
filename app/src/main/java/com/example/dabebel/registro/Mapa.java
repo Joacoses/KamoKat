@@ -184,8 +184,8 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
         startActivity(new Intent(this,AcercaDeActivity.class));
     }
 
-    public void abrirInvitar(View view) {
-        startActivity(new Intent(this,Invitar.class));
+    public void abrirMonedero(View view) {
+        startActivity(new Intent(this,Monedero.class));
     }
 
     public void descargarCoord()
