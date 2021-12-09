@@ -1,11 +1,7 @@
 package com.example.dabebel.registro;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,26 +13,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import com.bumptech.glide.Glide;
-import com.example.dabebel.registro.databinding.EditarPerfilBinding;
-import com.example.dabebel.registro.databinding.FragmentPestana1Binding;
-import com.example.dabebel.registro.databinding.PerfilBinding;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 
 public class Pestana1Fragment extends Fragment {
@@ -47,37 +41,18 @@ public class Pestana1Fragment extends Fragment {
     private Map<String, String> datosUsuario = new HashMap<>();
     //private PerfilBinding binding;
 
+    private StorageReference refBBDD;
+    String urlImg;
+
 
     Button btnEditarPerfil;
     Button btnCerrarSesion;
     TextView nombreUsuario;
     TextView mailUsusario;
     TextView fechaUsusario;
-    ImageView imagenUsusario;
-    /*@Override public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        /*binding = PerfilBinding.inflate(getLayoutInflater());
-        //setContentView(binding.getRoot() );
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
+    ImageView imagenUsuario;
+    //ImageButton botonEditarImagen;
 
-        binding.btnEditar.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editarPerfil();
-            }
-        });
-
-        binding.btnCerrarSesion.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cerrarSesion(null);
-            }
-        });
-
-        cogerDatosUsuario(currentUser);
-
-    }*/
 
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,13 +87,63 @@ public class Pestana1Fragment extends Fragment {
         nombreUsuario = view.findViewById(R.id.txtNombreUsuario);
         mailUsusario = view.findViewById(R.id.txtMailUsuario);
         fechaUsusario = view.findViewById(R.id.txtFechaUsuario);
-        imagenUsusario = view.findViewById(R.id.fotoUsuario);
+        imagenUsuario = view.findViewById(R.id.fotoUsuario);
 
+        //boton para subir imagen
+/*
+        botonEditarImagen = view.findViewById(R.id.btnEditarImagen);
+        botonEditarImagen.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(Intent.ACTION_PICK);
+                        i.setType("image/*");
+                        startActivityForResult(i, 1234);
+                    }
+                }
+        );*/
+
+
+        refBBDD = FirebaseStorage.getInstance().getReference();
 
         cogerDatosUsuario(currentUser);
+        setImg(currentUser.getEmail());
 
     return view;
     }
+
+    //Subir imagen
+/*
+    @Override
+    public void onActivityResult(final int requestCode,
+                                 final int resultCode, final Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1234) {
+                subirImg(data.getData(), "Imagenes/" + mailUsusario.getText());
+            }
+
+
+        }
+
+
+    }
+
+    private void subirImg(Uri archivo, String ref)
+    {
+        StorageReference ficheroRef = refBBDD.child(ref);
+        ficheroRef.putFile(archivo).addOnSuccessListener(
+                new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+                        if(downloadUri.isSuccessful())
+                        {
+                            urlImg = downloadUri.getResult().toString();
+                        }
+                    }
+                }
+        );
+    }*/
 
     private void editarPerfil()
     {
@@ -134,17 +159,17 @@ public class Pestana1Fragment extends Fragment {
         Date d=new Date(Long.parseLong(datosUsuario.get("Fecha")));
         fechaUsusario.setText(d.toString());
 
-
+/*
         try
         {
-            Glide.with(this).load(datosUsuario.get("Foto")).placeholder(R.drawable.iconopatineteredondo).into(fotousuario);
+            Glide.with(this).load(datosUsuario.get("Foto")).into(fotousuario);
         }
         catch (NullPointerException e)
         {
             imagenUsusario.setImageResource(R.drawable.iconopatineteredondo);
-            Toast.makeText(getContext(), "Fallo al descargar la información",
+            Toast.makeText(getContext(), "Fallo",
                     Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     //Coger datos usuario
@@ -167,6 +192,7 @@ public class Pestana1Fragment extends Fragment {
         cargarDatosUsuario(datosUsuario);
     }
 
+
     //cerrarSesion
     public void cerrarSesion(View view) {
         AuthUI.getInstance().signOut(getContext())
@@ -180,46 +206,37 @@ public class Pestana1Fragment extends Fragment {
                 });
     }
 
+    public void setImg(String nombreDelTanque)
+    {
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("image", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-
-
-
-
-/*
-    private FragmentPestana1Binding binding;
-    Button btnMapa;
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_pestana1, container, false);
-        View view = inflater.inflate(R.layout.fragment_pestana1, container, false);
-        //binding = FragmentPestana1Binding.inflate(getLayoutInflater());
-        //setContentView(binding.getRoot() );
-
-        /*btnMapa = view.findViewById(R.id.btn_1);
-        btnMapa.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent( getContext(), Mapa.class);
-                        startActivity(i);
-                    }
-                }
-        );
-*/
-        /*binding.btn1.setOnClickListener( new View.OnClickListener() {
+        final String path = localFile.getAbsolutePath();
+        Log.d("Img" , "Nombre de la imagen: " + currentUser.getEmail() );
+        StorageReference ficheroRef = refBBDD.child("Imagenes/" + currentUser.getEmail());
+        ficheroRef.getFile(localFile)
+                .addOnSuccessListener(new
+                                              OnSuccessListener<FileDownloadTask.TaskSnapshot>(){
+                                                  @Override
+                                                  public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot){
+                                                      Log.d("Almacenamiento", "Fichero bajado");
+                                                      imagenUsuario.setImageBitmap(BitmapFactory.decodeFile(path));
+                                                  }
+                                              }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent( getContext(), Mapa.class);
-                startActivity(i);
+            public void onFailure(@NonNull Exception exception) {
+
+                //Carga esta imagen si no hay ninguna en firebase
+                imagenUsuario.setImageResource(R.drawable.iconopatineteredondo);
+
+
+                Log.e("Almacenamiento", "ERROR: bajando fichero");
             }
-        });*/
-/*
-        return view;
+        });
     }
-*/
 
 }

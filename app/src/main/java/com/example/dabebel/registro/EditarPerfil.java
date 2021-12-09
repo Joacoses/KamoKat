@@ -1,9 +1,13 @@
 package com.example.dabebel.registro;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dabebel.registro.databinding.ActivityMainBinding;
 import com.example.dabebel.registro.databinding.EditarPerfilBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,8 +26,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import static android.content.ContentValues.TAG;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditarPerfil extends AppCompatActivity {
 
@@ -32,6 +47,15 @@ public class EditarPerfil extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     DatabaseReference mDB = FirebaseDatabase.getInstance().getReference();
 
+    //--------------------------------------------------------------------------------------------//
+    //Subir y descargar imagen
+    //--------------------------------------------------------------------------------------------//
+    private StorageReference refBBDD;
+    String urlImg;
+    private Map<String, String> datosUsuario = new HashMap<>();
+    //--------------------------------------------------------------------------------------------//
+    //FIN
+    //--------------------------------------------------------------------------------------------//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +76,88 @@ public class EditarPerfil extends AppCompatActivity {
                 }
             }
         });
+        binding.btnEditarImagen.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(Intent.ACTION_PICK);
+                        i.setType("image/*");
+                        startActivityForResult(i, 1234);
+                    }
+                }
+        );
+
+        //----------------------------------------------------------------------------------------//
+        //Subir y descargar imagen
+        //----------------------------------------------------------------------------------------//
+        refBBDD = FirebaseStorage.getInstance().getReference();
+        cogerDatosUsuario(currentUser);
+
+        setImg(currentUser.getEmail());
+        //----------------------------------------------------------------------------------------//
+        //FIN
+        //----------------------------------------------------------------------------------------//
 
     }
+
+
+    //--------------------------------------------------------------------------------------------//
+    //Subir y descargar imagen
+    //--------------------------------------------------------------------------------------------//
+    @Override
+    public void onActivityResult(final int requestCode,
+                                 final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1234) {
+                subirImg(data.getData(), "Imagenes/" + datosUsuario.get("Mail").toString());
+            }
+        }
+    }
+
+    public void cogerDatosUsuario(FirebaseUser currentUser)
+    {
+        datosUsuario.put("Mail", currentUser.getEmail());
+    }
+
+
+    public void setImg(String nombreDelTanque)
+    {
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("image", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        final String path = localFile.getAbsolutePath();
+        Log.d("Img" , "Nombre de la imagen: " + currentUser.getEmail() );
+        StorageReference ficheroRef = refBBDD.child("Imagenes/" + currentUser.getEmail());
+        ficheroRef.getFile(localFile)
+                .addOnSuccessListener(new
+                                              OnSuccessListener<FileDownloadTask.TaskSnapshot>(){
+                                                  @Override
+                                                  public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot){
+                                                      Log.d("Almacenamiento", "Fichero bajado");
+                                                      binding.fotoUsuario.setImageBitmap(BitmapFactory.decodeFile(path));
+                                                  }
+                                              }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+
+                //Carga esta imagen si no hay ninguna en firebase
+                binding.fotoUsuario.setImageResource(R.drawable.iconopatineteredondo);
+
+
+                Log.e("Almacenamiento", "ERROR: bajando fichero");
+            }
+        });
+    }
+
+    //----------------------------------------------------------------------------------------//
+    //FIN
+    //----------------------------------------------------------------------------------------//
+
 
     private boolean comprobarDatos()
     {
@@ -124,4 +228,27 @@ public class EditarPerfil extends AppCompatActivity {
                 });
         db.collection("Usuarios").document(docID[0]).update("Nombre", nuevoNombre);
     }
+
+
+
+    private void subirImg(Uri archivo, String ref)
+    {
+        StorageReference ficheroRef = refBBDD.child(ref);
+        ficheroRef.putFile(archivo).addOnSuccessListener(
+                new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+                        if(downloadUri.isSuccessful())
+                        {
+                            urlImg = downloadUri.getResult().toString();
+                        }
+                    }
+                }
+        );
+    }
 }
+
+
+
+
