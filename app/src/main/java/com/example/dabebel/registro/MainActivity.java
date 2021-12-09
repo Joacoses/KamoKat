@@ -244,6 +244,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this,Monedero.class));
     }
 
+    public void abrirInvitar(View view) {
+        startActivity(new Intent(this,Invitar.class));
+    }
 
     /*
     public void abrirInvitar(View view) {

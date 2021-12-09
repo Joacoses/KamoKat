@@ -8,11 +8,11 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="343dp"
-        android:layout_height="66dp"
+        android:layout_width="342dp"
+        android:layout_height="91dp"
         android:layout_marginBottom="156dp"
         android:scrollbarSize="4dp"
-        android:text="Comparte este link para recibir un descuento para tu próximo viaje!"
+        android:text="¡Comparte este link para recibir 100 puntos para usar en tu próximo viaje!"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,12 +24,14 @@
         android:layout_width="137dp"
         android:layout_height="52dp"
         android:background="@drawable/btn_aceptar"
-        android:text="Copiar y Compartir"
+        android:text="Copiar en el portapapeles"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.839"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintVertical_bias="0.503" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -48,36 +50,56 @@
         android:layout_height="61dp"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="100dp"
-        android:background="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:srcCompat="@drawable/tarjetabanco" />
+        app:srcCompat="@drawable/tarjeta" />
 
     <TextView
-        android:id="@+id/textView12"
-        android:layout_width="222dp"
-        android:layout_height="21dp"
-        android:layout_marginStart="32dp"
-        android:text="Tienes x personas añadidas"
+        android:id="@+id/txtContadorPuntos"
+        android:layout_width="63dp"
+        android:layout_height="22dp"
+        android:text="0.0"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintEnd_toStartOf="@+id/textView28"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textView13"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.538" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="85dp"
+        android:layout_height="22dp"
+        android:text="puntos"
+        app:layout_constraintBottom_toBottomOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.338"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintHorizontal_bias="0.837"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView13"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView13"
-        android:layout_width="208dp"
-        android:layout_height="15dp"
-        android:layout_marginStart="32dp"
-        android:text="Has recibido  x  bonos del 10%"
+        android:layout_width="107dp"
+        android:layout_height="19dp"
+        android:text="Has recibido"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.31"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView12"
-        app:layout_constraintVertical_bias="0.32" />
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+    <Button
+        android:id="@+id/btnCorreo"
+        android:layout_width="137dp"
+        android:layout_height="52dp"
+        android:background="@drawable/btn_aceptar"
+        android:text="Compartir"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.127"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintVertical_bias="0.503" />
 </androidx.constraintlayout.widget.ConstraintLayout>
