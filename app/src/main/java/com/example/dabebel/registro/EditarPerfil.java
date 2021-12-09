@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -46,7 +47,7 @@ public class EditarPerfil extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     DatabaseReference mDB = FirebaseDatabase.getInstance().getReference();
-
+    String docID = "";
     //--------------------------------------------------------------------------------------------//
     //Subir y descargar imagen
     //--------------------------------------------------------------------------------------------//
@@ -184,6 +185,8 @@ public class EditarPerfil extends AppCompatActivity {
         cambiarNombre(binding.txtNombreEditar.getText().toString());
         cambiarMailMail(binding.txtMailEditar.getText().toString());
         cambiarContrasenya(binding.txtContrasenyaEditar.getText().toString());
+        Intent i = new Intent(this,Mapa.class);
+        startActivity(i);
     }
     private void cambiarContrasenya(String contraNueva)
     {
@@ -193,7 +196,10 @@ public class EditarPerfil extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "User password updated.");
+
                         }
+                        Log.d("Doc id 2", docID);
+
                     }
                 });
     }
@@ -206,6 +212,7 @@ public class EditarPerfil extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "User email address updated.");
+                            db.collection("Usuarios").document(currentUser.getUid()).update("Mail",nuevoMail);
                         }
                     }
                 });
@@ -214,19 +221,21 @@ public class EditarPerfil extends AppCompatActivity {
 
     private void cambiarNombre(String nuevoNombre)
     {
-        final String[] docID = {""};
+
         db.collection("Usuarios").whereEqualTo("Mail", currentUser.getEmail()).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                               docID[0] = document.getId();
+                               docID = document.getId();
+                               Log.d("Doc id", docID);
+                                db.collection("Usuarios").document(currentUser.getUid()).update("Nombre",nuevoNombre);
+
                             }
-                        }
                     }
                 });
-        db.collection("Usuarios").document(docID[0]).update("Nombre", nuevoNombre);
+
     }
 
 

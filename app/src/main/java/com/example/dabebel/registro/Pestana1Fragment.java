@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,6 +23,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -53,6 +56,9 @@ public class Pestana1Fragment extends Fragment {
     ImageView imagenUsuario;
     //ImageButton botonEditarImagen;
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
 
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,6 +66,7 @@ public class Pestana1Fragment extends Fragment {
         View view = inflater.inflate(R.layout.perfil, container, false);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        db= FirebaseFirestore.getInstance();
 
 
         btnEditarPerfil = view.findViewById(R.id.btnEditar);
@@ -149,8 +156,7 @@ public class Pestana1Fragment extends Fragment {
     {
         Intent i = new Intent( getContext(), EditarPerfil.class);
         startActivity(i);
-    }
-    private void cargarDatosUsuario(Map<String, String> datosUsuario)
+    } private void cargarDatosUsuario(Map<String, String> datosUsuario)
     {
 
         nombreUsuario.setText(datosUsuario.get("Nombre"));
@@ -159,40 +165,56 @@ public class Pestana1Fragment extends Fragment {
         Date d=new Date(Long.parseLong(datosUsuario.get("Fecha")));
         fechaUsusario.setText(d.toString());
 
-/*
+        Glide.with(this).load(datosUsuario.get("Foto")).into(imagenUsuario);
         try
         {
-            Glide.with(this).load(datosUsuario.get("Foto")).into(fotousuario);
+            Glide.with(this).load(datosUsuario.get("Foto")).placeholder(R.drawable.iconopatineteredondo).into(imagenUsuario);
         }
         catch (NullPointerException e)
         {
-            imagenUsusario.setImageResource(R.drawable.iconopatineteredondo);
-            Toast.makeText(getContext(), "Fallo",
-                    Toast.LENGTH_SHORT).show();
-        }*/
+            fotousuario.setImageResource(R.drawable.iconopatineteredondo);
+            /*Toast.makeText(Perfil.this, "Fallo al descargar la información",
+                    Toast.LENGTH_SHORT).show();*/
+        }
     }
 
     //Coger datos usuario
     public void cogerDatosUsuario(FirebaseUser currentUser)
     {
 
-        datosUsuario.put("Nombre", currentUser.getDisplayName());
-        datosUsuario.put("Mail", currentUser.getEmail());
-        datosUsuario.put("Fecha", Long.toString( currentUser.getMetadata().getCreationTimestamp()));
-        try
-        {
-            datosUsuario.put("Foto", currentUser.getPhotoUrl().toString());
-        }
-        catch (NullPointerException e)
-        {
-            Toast.makeText(getContext(), "Fallo al descargar la información",
-                    Toast.LENGTH_SHORT).show();
-        }
+        final String[] nombre = {""};
+        final String[] mail = {""};
+        db.collection("Usuarios").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful())
+                {
 
-        cargarDatosUsuario(datosUsuario);
+                    nombre[0] = task.getResult().getString("Nombre");
+                    datosUsuario.put("Nombre", nombre[0]);
+                    mail[0] = task.getResult().getString("Mail");
+                    datosUsuario.put("Mail", mail[0]);
+                    datosUsuario.put("Fecha", Long.toString( currentUser.getMetadata().getCreationTimestamp()));
+                    try
+                    {
+                        datosUsuario.put("Foto", currentUser.getPhotoUrl().toString());
+                    }
+                    catch (NullPointerException e)
+                    {
+            /*Toast.makeText(Perfil.this, "Fallo al descargar la información",
+                    Toast.LENGTH_SHORT).show();*/
+                    }
+
+                    cargarDatosUsuario(datosUsuario);
+                    Log.d("PERFIL", datosUsuario.toString());
+                }
+
+            }
+        });
+
+
+
     }
-
-
     //cerrarSesion
     public void cerrarSesion(View view) {
         AuthUI.getInstance().signOut(getContext())

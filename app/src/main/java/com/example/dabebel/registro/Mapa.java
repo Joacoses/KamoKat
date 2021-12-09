@@ -241,10 +241,11 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
                                 Log.d("Query", task.getResult().getDocuments().toString());
                                 Log.d("Datos Usuario", datosUsuario.toString());
 
-                                if (task.getResult().isEmpty())
-                                {
-                                    subirDatosUsuario(datosUsuario);
-                                }
+
+                            }
+                            else
+                            {
+                                subirDatosUsuario(datosUsuario);
                             }
                         }
                     });
