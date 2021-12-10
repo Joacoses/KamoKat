@@ -1,5 +1,10 @@
 package com.example.dabebel.registro;
 
+import static android.content.ContentValues.TAG;
+
+import static com.example.comun.Mqtt.broker;
+import static com.example.comun.Mqtt.topicRoot;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -24,6 +29,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.comun.Mqtt;
 import com.example.dabebel.registro.databinding.ActivityMainBinding;
 import com.firebase.ui.auth.AuthUI;
 
@@ -38,10 +44,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+
+import static com.example.comun.Mqtt.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements org.eclipse.paho.client.mqttv3.MqttCallback{
 
     private FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -65,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------
     private Button btnCerrarSesion;
 
+    //----------------------------------------------------------------------------------------------
+    private static MqttClient client;
+    private Button b;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
+
+        conectarMqtt();
+        suscribirMqtt("POWER", this);
 
 
 
@@ -150,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
     }//onCreate
 
+
     //----------------------------------------------------------------------------------------------
     //Menu
     @Override
@@ -225,6 +249,9 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
+        publicarMqtt("saludo","Hola soy Joan");
+        Toast.makeText(getApplicationContext(), "Topic publicado",
+                Toast.LENGTH_LONG).show();
 
     }
 
@@ -256,6 +283,75 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
 
+
+    //MQTT------------------------------------------------------------------------------------------
+
+    public static void conectarMqtt() {
+        try {
+            Log.i(Mqtt.TAG, "Conectando al broker " + broker);
+            client = new MqttClient(broker, clientId, new MemoryPersistence());
+            MqttConnectOptions connOpts = new MqttConnectOptions();
+            connOpts.setCleanSession(true);
+            connOpts.setKeepAliveInterval(60);
+            connOpts.setWill(topicRoot+"WillTopic","App desconectada".getBytes(),
+                    qos, false);
+            client.connect(connOpts);
+        } catch (MqttException e) {
+            Log.e(Mqtt.TAG, "Error al conectar.", e);
+        }
+    }
+
+    public static void publicarMqtt(String topic, String mensageStr) {
+        try {
+            MqttMessage message = new MqttMessage(mensageStr.getBytes());
+            message.setQos(qos);
+            message.setRetained(false);
+            client.publish(topicRoot + topic, message);
+            Log.i(Mqtt.TAG, "Publicando mensaje: " + topic+ "->"+mensageStr);
+        } catch (MqttException e) {
+            Log.e(Mqtt.TAG, "Error al publicar." + e);
+        }
+    }
+
+    public static void suscribirMqtt(String topic, MqttCallback listener) {
+        try {
+            Log.i(Mqtt.TAG, "Suscrito a " + topicRoot + topic);
+            client.subscribe(topicRoot + topic, qos);
+            client.setCallback(listener);
+        } catch (MqttException e) {
+            Log.e(Mqtt.TAG, "Error al suscribir.", e);
+        }
+    }
+
+
+    public static void deconectarMqtt() {
+        try {
+            client.disconnect();
+            Log.i(Mqtt.TAG, "Desconectado");
+        } catch (MqttException e) {
+            Log.e(Mqtt.TAG, "Error al desconectar.", e);
+        }
+    }
+    @Override
+    public void onDestroy() {
+        deconectarMqtt();
+        super.onDestroy();
+    }
+
+    @Override
+    public void connectionLost(Throwable cause) {
+        Log.d(Mqtt.TAG, "Conexión perdida");
+    }
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken token) {
+        Log.d(Mqtt.TAG, "Entrega completa");
+    }
+    @Override
+    public void messageArrived(String topic, MqttMessage message)
+            throws Exception {
+        String payload = new String(message.getPayload());
+        Log.d(Mqtt.TAG, "Recibiendo: " + topic + "->" + payload);
+    }
 
 
 
