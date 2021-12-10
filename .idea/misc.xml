@@ -3,15 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/cosas uni/Segundo/PROYECTO IOT/APPS/KamoKat/app/src/main/res/layout/acercade.xml" value="0.25416666666666665" />
-        <entry key="..\:/cosas uni/Segundo/PROYECTO IOT/APPS/KamoKat/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/cosas uni/Segundo/PROYECTO IOT/APPS/KamoKat/app/src/main/res/layout/elemento_lista.xml" value="0.25416666666666665" />
-        <entry key="..\:/cosas uni/Segundo/PROYECTO IOT/APPS/KamoKat/app/src/main/res/layout/fragment_pestana1.xml" value="0.25416666666666665" />
-        <entry key="..\:/cosas uni/Segundo/PROYECTO IOT/APPS/KamoKat/app/src/main/res/layout/fragment_pestana2.xml" value="0.25416666666666665" />
-        <entry key="..\:/cosas uni/Segundo/PROYECTO IOT/APPS/KamoKat/app/src/main/res/layout/invitar.xml" value="0.25416666666666665" />
-        <entry key="..\:/cosas uni/Segundo/PROYECTO IOT/APPS/KamoKat/app/src/main/res/layout/mapa.xml" value="0.25416666666666665" />
-        <entry key="..\:/cosas uni/Segundo/PROYECTO IOT/APPS/KamoKat/app/src/main/res/layout/monedero.xml" value="0.25416666666666665" />
-        <entry key="..\:/cosas uni/Segundo/PROYECTO IOT/APPS/KamoKat/app/src/main/res/layout/perfil.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Usuario/AndroidStudioProjects/3r_Oficial/dani/Registro/app/src/main/res/layout/activity_main.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/Usuario/AndroidStudioProjects/3r_Oficial/dani/Registro/app/src/main/res/layout/editar_perfil.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Usuario/AndroidStudioProjects/3r_Oficial/dani/Registro/app/src/main/res/layout/elemento_lista.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/Usuario/AndroidStudioProjects/3r_Oficial/dani/Registro/app/src/main/res/layout/fragment_pestana1.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/Usuario/AndroidStudioProjects/3r_Oficial/dani/Registro/app/src/main/res/layout/perfil.xml" value="0.25052083333333336" />
       </map>
     </option>
   </component>
