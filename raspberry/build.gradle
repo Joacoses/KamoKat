@@ -24,6 +24,7 @@ jar {
         configurations.compileClasspath.filter {it.exists()}.collect
                 {it.isDirectory() ? it : zipTree(it)}
     }
+
 }
 test {
     useTestNG()

@@ -81,13 +81,12 @@ public class Mapa2 extends Fragment implements OnMapReadyCallback /*, GoogleMap*
         //mapa.setOnMapClickListener(this);
 
 
-
-        if (ActivityCompat.checkSelfPermission(getActivity(),
+        /*if (ActivityCompat.checkSelfPermission(getActivity(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             mapa.setMyLocationEnabled(true);
             mapa.getUiSettings().setCompassEnabled(true);
-        }
+        }*/
     }
 
 

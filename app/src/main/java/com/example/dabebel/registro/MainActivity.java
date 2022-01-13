@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements org.eclipse.paho.
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        publicarMqtt("saludo","Hola soy Joan");
+        publicarMqtt("POWER","Hola soy Joan");
         Toast.makeText(getApplicationContext(), "Topic publicado",
                 Toast.LENGTH_LONG).show();
 
@@ -316,6 +316,7 @@ public class MainActivity extends AppCompatActivity implements org.eclipse.paho.
     public static void suscribirMqtt(String topic, MqttCallback listener) {
         try {
             Log.i(Mqtt.TAG, "Suscrito a " + topicRoot + topic);
+            Log.i(Mqtt.TAG, "Mensaje recibido: Hola, somos el grupo2_2" );
             client.subscribe(topicRoot + topic, qos);
             client.setCallback(listener);
         } catch (MqttException e) {

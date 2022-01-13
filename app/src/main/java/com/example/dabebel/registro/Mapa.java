@@ -84,7 +84,6 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
         mapFragment.getMapAsync(this);
 
 
-
         //Floating Button---------------------------------------------------------------------------
         FloatingActionButton boton = findViewById(R.id.btnfcentral);
         FloatingActionButton botonMapa = findViewById(R.id.btnfmapa);
@@ -131,25 +130,25 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
             }
         });
 
-        solicitarPermiso(location, "Sin el permiso"+
+        solicitarPermiso(location, "Sin el permiso" +
                         " no funciona el mapa",
                 LOCALIZACION, this);
-        solicitarPermiso(noti, "Sin el permiso"+
+        solicitarPermiso(noti, "Sin el permiso" +
                         " no funciona el mapa",
                 NOTIFICACIONES, this);
-        solicitarPermiso(camara, "Sin el permiso"+
+        solicitarPermiso(camara, "Sin el permiso" +
                         " no se pueden hacer fotos",
                 CAMARA, this);
-        solicitarPermiso(nfc, "Sin el permiso"+
+        solicitarPermiso(nfc, "Sin el permiso" +
                         " no se puede activar el servo",
                 NFC, this);
-        solicitarPermiso(escribirStorage, "Sin el permiso"+
+        solicitarPermiso(escribirStorage, "Sin el permiso" +
                         " no se pueden guardar datos en el storage",
                 ESCRIBIR, this);
-        solicitarPermiso(leerStorage, "Sin el permiso"+
+        solicitarPermiso(leerStorage, "Sin el permiso" +
                         " no se pueden leer datos de el storage",
                 LEER, this);
-        solicitarPermiso(manageStorage, "Sin el permiso"+
+        solicitarPermiso(manageStorage, "Sin el permiso" +
                         " no se pueden leer datos de el storage",
                 MANAGE, this);
 
@@ -165,6 +164,23 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Google
         mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(posInicial, 15));
         mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mapa.getUiSettings().setZoomControlsEnabled(false);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mapa.setMyLocationEnabled(true);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         descargarCoord();
 
 
