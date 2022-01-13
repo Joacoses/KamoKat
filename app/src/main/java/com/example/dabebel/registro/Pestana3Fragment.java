@@ -101,6 +101,8 @@ public class Pestana3Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //noti();
+                Toast.makeText(getContext(),"Viaje creado",Toast.LENGTH_SHORT).show();
+
                 crearViajes(currentUser.getUid());
             }
         });
