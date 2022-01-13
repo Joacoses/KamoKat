@@ -86,6 +86,7 @@ public class Monedero extends AppCompatActivity {
 
     public void abrirInvitar(View view) {
         startActivity(new Intent(this,Invitar.class));
+        finish();
     }
 
 

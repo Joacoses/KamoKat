@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Estación "
+            android:text="Estación:"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toEndOf="@+id/imgRecycler"
             app:layout_constraintTop_toTopOf="@+id/imgRecycler" />
@@ -100,12 +100,14 @@
 
         <TextView
             android:id="@+id/txtFecha"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:text="txtFecha"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="@+id/textView7"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView7"
             app:layout_constraintTop_toTopOf="@+id/textView7" />
     </androidx.constraintlayout.widget.ConstraintLayout>

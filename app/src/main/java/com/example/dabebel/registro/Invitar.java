@@ -71,6 +71,7 @@ public class Invitar extends AppCompatActivity {
                 Intent intent2 = new Intent(Invitar.this, Monedero.class);
                 intent2.putExtra("PuntosSumados",puntosSumados);
                 startActivity(intent2);
+                finish();
 
             }
         });
@@ -95,6 +96,7 @@ public class Invitar extends AppCompatActivity {
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/search?q=kamokat&hl=es&gl=US");
         startActivity(intent);
+        finish();
 
 
     }
