@@ -20,7 +20,7 @@ public class Principal {
         conectarMqtt();
         long tiempo = System.currentTimeMillis();
         publicarMqtt("tiempo", Long.toHexString(tiempo));
-        publicarMqtt2("tiempoLong", tiempo);
+        //publicarMqtt2("tiempoLong", tiempo);
 
         desconectarMqtt();
     }

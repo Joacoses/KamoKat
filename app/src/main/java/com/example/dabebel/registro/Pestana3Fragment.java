@@ -67,8 +67,6 @@ public class Pestana3Fragment extends Fragment {
         //botonNoti = (Button) view.findViewById(R.id.btnNoti);
 
 
-
-
         Random rand = new Random();
         int coste = rand.nextInt((6-1)) + 1;
         Log.d("Coste",Integer.toString(coste) );
@@ -96,6 +94,7 @@ public class Pestana3Fragment extends Fragment {
 
         Log.d("UID", currentUser.getUid());
         crearViajes(currentUser.getUid());
+        noti();
 
         botonTarjeta.setOnClickListener(new View.OnClickListener() {
             @Override
