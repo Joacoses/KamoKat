@@ -57,7 +57,7 @@ import static com.example.comun.Mqtt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements org.eclipse.paho.client.mqttv3.MqttCallback{
+public class MainActivity extends AppCompatActivity /*implements org.eclipse.paho.client.mqttv3.MqttCallback*/{
 
     private FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements org.eclipse.paho.
         currentUser = mAuth.getCurrentUser();
 
 
-        conectarMqtt();
-        suscribirMqtt("POWER", this);
+        //conectarMqtt();
+        //suscribirMqtt("POWER", this);
 
 
 
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements org.eclipse.paho.
             switch (position) {
                 case 0: return new Pestana1Fragment();
                 case 1: return new Pestana2Fragment();
-                case 2: return new Pestana3Fragment();
+                case 2: return new prueba();
             }
             return null;
         }
@@ -249,9 +249,8 @@ public class MainActivity extends AppCompatActivity implements org.eclipse.paho.
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        publicarMqtt("POWER","Hola soy Joan");
-        Toast.makeText(getApplicationContext(), "Topic publicado",
-                Toast.LENGTH_LONG).show();
+        //publicarMqtt("POWER","Hola soy Joan");
+        //Toast.makeText(getApplicationContext(), "Topic publicado", Toast.LENGTH_LONG).show();
 
     }
 
@@ -285,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements org.eclipse.paho.
 
 
     //MQTT------------------------------------------------------------------------------------------
-
+/*
     public static void conectarMqtt() {
         try {
             Log.i(Mqtt.TAG, "Conectando al broker " + broker);
@@ -354,6 +353,6 @@ public class MainActivity extends AppCompatActivity implements org.eclipse.paho.
         Log.d(Mqtt.TAG, "Recibiendo: " + topic + "->" + payload);
     }
 
-
+*/
 
 }

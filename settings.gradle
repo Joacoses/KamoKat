@@ -2,3 +2,4 @@ include ':app'
 rootProject.name = "Registro"
 include ':comun'
 include ':raspberry'
+include ':comun'
